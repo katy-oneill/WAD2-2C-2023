@@ -1,8 +1,9 @@
+from django.contrib import admin
 from django.urls import path
+from django.urls import include
 from shelves_project import views
 
-app_name = 'shelves'
-
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('', views.launch, name='launch'),
+    path('admin/', admin.site.urls),
 ]
