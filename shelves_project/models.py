@@ -1,4 +1,4 @@
-from datetime import timedelta, datetime
+import datetime
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
@@ -47,7 +47,7 @@ class Media(models.Model):
 
 class Book(models.Model):
     # FK
-    media = models.ForeignKey(Media, on_delete=models.CASCADE)
+    media = models.OneToOneField(Media, on_delete=models.CASCADE)
 
     # Max Length Values
     ISBN_MAX_LENGTH = 13
@@ -58,19 +58,19 @@ class Book(models.Model):
 
 class Movie(models.Model):
     # FK
-    media = models.ForeignKey(Media, on_delete=models.CASCADE)
+    media = models.OneToOneField(Media, on_delete=models.CASCADE)
     
     # Max Length Values
     LOC_MAX_LENGTH = 50
 
     # Fields
     location = models.CharField(max_length=LOC_MAX_LENGTH)
-    duration = models.DurationField(default=timedelta)
+    duration = models.DurationField(default=datetime.timedelta())
 
 
 class Show(models.Model):
     # FK
-    media = models.ForeignKey(Media, on_delete=models.CASCADE)
+    media = models.OneToOneField(Media, on_delete=models.CASCADE)
 
     # Fields
     episodes = models.IntegerField(default=0)
@@ -79,10 +79,10 @@ class Show(models.Model):
 
 class Song(models.Model):
     # FK
-    media = models.ForeignKey(Media, on_delete=models.CASCADE)
+    media = models.OneToOneField(Media, on_delete=models.CASCADE)
 
     # Fields
-    duration = models.DurationField(default=timedelta)
+    duration = models.DurationField(default=datetime.timedelta())
 
 
 class Post(models.Model):
