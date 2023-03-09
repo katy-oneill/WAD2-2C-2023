@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+{%load staticfiles %}
+
+<html lang="en">
+    <head>
+        <title>Shelves</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+        <link rel="stylesheet" href="/resources/demos/style.css">
+        <style>
+            fieldset {
+              border: 0;
+            }
+            label {
+              display: block;
+              margin: 30px 0 0 0;
+            }
+            .overflow {
+              height: 200px;
+            }
+          </style>
+        <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+        <script>
+        $( function() {
+            $( "#tabs" ).tabs();
+        } );
+        $( function() {
+            $( ".widget input[type=submit], .widget a, .widget button" ).button();
+            $( "button, input, a" ).on( "click", function( event ) {
+            event.preventDefault();
+            } );
+        } );
+        $( function() {
+            $( "Type" ).selectmenu()
+        } );
+        </script>
+    </head>
+    
+    <body>
+        <h1>Shelves</h1>
+        <form action="">
+            <input class="ui-button ui-widget ui-corner-all" type="submit" value "Go to Social" />
+        </form>
+        <img src="{% static "images/logo.jpg" %}" alt="Logo" />
+        <fieldset>
+            <label for="Type of Media">Select a type of media</label>
+            <select name="type" id="type">
+            <option disabled selected>Please pick one</option>
+            <option>Books</option>
+            <option>Movies</option>
+            <option>Albums</option>
+            <option>Albums</option>
+            </select>
+        <div id="tabs">
+        <ul>
+            <li><a href="#tabs-1">Books</a></li>
+            <li><a href="#tabs-2">Movies</a></li>
+            <li><a href="#tabs-3">Albums</a></li>
+            <li><a href="#tabs-4">Shows</a></li>
+        </ul>
+        <div id="tabs-1">
+
+        </div>
+        <div id="tabs-2">
+        <div id="tabs-3">
+        </div>
+        </div>
+    </body>
+</html>
