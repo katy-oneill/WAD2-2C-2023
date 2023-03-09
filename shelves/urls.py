@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.urls import path
 from shelves_project import views
+from django.contrib import admin
+
 app_name = "shelves"
 urlpatterns = [
     path('', views.launch, name='launch'),
+    path('admin/', admin.site.urls),
 ]

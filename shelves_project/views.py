@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 def launch(request):
-    return render(request, shelves_project/launch.html)
+    return render(request, 'shelves/launch.html')
 
-# Create your views here.
+def index(request):
+    return HttpResponse("Hey!")
