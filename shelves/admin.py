@@ -1,5 +1,5 @@
 from django.contrib import admin
-from shelves_project.models import Media, Book, Movie, Show, Post, UserProfile
+from shelves.models import Media, Book, Movie, Show, Post, UserProfile
 
 admin.site.register(Media)
 admin.site.register(Book)

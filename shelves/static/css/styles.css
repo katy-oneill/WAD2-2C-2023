@@ -1,9 +1,9 @@
- body{
+body{
     background-image: url("../images/logo.jpg");
     background-attachment: fixed;
     background-size: 100%, 100%;
     position: relative;
-    
+
 }
 
 #heading {
@@ -21,9 +21,9 @@
     float: left;
     margin: 10px;
     height: 250px;
-    margin-bottom: 60px;
+    
   }
-  
+
   .image {
     display: block;
     width: 90%;
@@ -33,7 +33,7 @@
     padding-top: 10px;
     padding-bottom: 10px;
   }
-  
+
   .overlay {
     position: absolute;
     top: 0;
@@ -48,7 +48,7 @@
     border-radius: 25px;
     border: black;
   }
-  
+
   .container:hover .overlay {
     opacity: 1;
   }
@@ -56,7 +56,7 @@
   .container-final:hover .overlay {
     opacity: 1;
   }
-  
+
   .text {
     color: white;
     font-size: 20px;
@@ -95,4 +95,10 @@
     clear: both;
   }
 
+<<<<<<< HEAD:shelves_project/static/css/styles.css
   
+=======
+  .container {
+    margin-bottom: 60px;
+  }  
+>>>>>>> refs/remotes/origin/main:shelves/static/css/styles.css
