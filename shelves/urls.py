@@ -15,7 +15,7 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='shelves/login.html'), name='login'),
     path('register/', views.register, name='register'),
     path('registration_success/', views.registration_success, name='registration_success'),
-    path('accounts/profile/', views.profile, name='profile'),
+    path('accounts/dashboard/', views.dashboard, name='dashboard'),
     path('logout/', views.logout_view, name='logout'),
 ]
 

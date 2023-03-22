@@ -40,9 +40,9 @@ def register(request):
 def registration_success(request):
     return HttpResponse("Registration successful! You are now logged in.")
 
-def profile(request):
+def dashboard(request):
     try:
-        user_profile = request.user.userprofile
+        user_profile = request.user.UserProfile()
     except UserProfile.DoesNotExist:
         user_profile = None
-    return render(request, 'shelves/profile.html', {'user_profile': user_profile})
+    return render(request, 'shelves/dashboard.html', {'user_profile': user_profile})

@@ -6,11 +6,18 @@
 {% block title_block %}Register{% endblock %}
 
 {% block body_block %}
+
+<div class="form-box">
+
 <h1>Register</h1>
 
-<form method="post" enctype="multipart/form-data">
+
+
+<form method="post" enctype="multipart/form-data" action="{% url 'dashboard' %}">
+  
     {% csrf_token %}
     {{ form.as_p }}
+
 
     <div class="form-group">
         <label for="{{ form.picture.id_for_label }}">Profile Picture:</label>
@@ -19,5 +26,8 @@
 
     <button type="submit">Register</button>
 </form>
+
+</div>
+
 
 {% endblock %}
