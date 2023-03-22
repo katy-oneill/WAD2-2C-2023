@@ -21,6 +21,7 @@
     float: left;
     margin: 10px;
     height: 250px;
+    
   }
   
   .image {
@@ -78,6 +79,8 @@
 
  p{
     font-family: cursive;
+    padding: 2px;
+    padding-top: 2px;
  }
 
  .container-final {
@@ -91,4 +94,5 @@
     height: 250px;
     clear: both;
   }
+
   
