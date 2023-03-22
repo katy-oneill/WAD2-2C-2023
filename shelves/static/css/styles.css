@@ -95,10 +95,7 @@ body{
     clear: both;
   }
 
-<<<<<<< HEAD:shelves_project/static/css/styles.css
-  
-=======
-  .container {
-    margin-bottom: 60px;
-  }  
->>>>>>> refs/remotes/origin/main:shelves/static/css/styles.css
+  .form-box {
+    border: 1px solid black;
+    padding: 20px;
+  }

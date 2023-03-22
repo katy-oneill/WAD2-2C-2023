@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from shelves.form import RegistrationForm
 from django.contrib.auth import login, logout
 from shelves.models import UserProfile
+from django.contrib.auth.decorators import login_required
 
 def launch(request):
     return render(request, 'shelves/launch.html')
@@ -40,9 +41,10 @@ def register(request):
 def registration_success(request):
     return HttpResponse("Registration successful! You are now logged in.")
 
+@login_required
 def dashboard(request):
     try:
-        user_profile = request.user.UserProfile()
+        user_profile = request.user.userprofile
     except UserProfile.DoesNotExist:
         user_profile = None
     return render(request, 'shelves/dashboard.html', {'user_profile': user_profile})
