@@ -3,6 +3,7 @@ body{
     background-attachment: fixed;
     background-size: 100%, 100%;
     position: relative;
+    margin: 0;
 
 }
 
@@ -94,6 +95,51 @@ body{
     height: 250px;
     clear: both;
   }
+
+  .navbar {
+  background-color: #06384a;
+  overflow: hidden;
+}
+
+.navbar a {
+  float: right;
+  color: white;
+  font-family: "Monaco", monospace;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.navbar a:hover {
+  background-color: #01161d;
+  color: white;
+}
+
+.navbar input[type=text] {
+  float: left;
+  padding: 6px;
+  border: none;
+  margin-top: 8px;
+  margin-right: 16px;
+  margin-left: 8px;
+  font-size: 17px;
+}
+
+.navbar .search button {
+  float: left;
+  padding: 6px;
+  margin-top: 8px;
+  margin-right: 16px;
+  background: #1a5971;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
+.navbar .search button:hover {
+   background: #23667f;
+}
 
 <<<<<<< HEAD:shelves_project/static/css/styles.css
   

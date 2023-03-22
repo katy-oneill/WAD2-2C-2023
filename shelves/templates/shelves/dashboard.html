@@ -1,6 +1,28 @@
 <!DOCTYPE html>
-{% extends "shelves/base.html" %}
+{% load static %}
 
+<head lang="en">
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" alt="my images">
+        <title>
+            Dashboard
+        </title>
+    </head>
+<html>
+<main>
+<div class="navbar">
+    <div class="search">
+    <form action="{% url 'launch' %}">
+      <input type="text" placeholder="Search.." name="search">
+      <button type="submit">  ⛭  </button>
+    </form>
+      <a href="{% url 'social' %}">Social</a>
+      <a href="{% url 'personal' %}">Profile</a>
+  </div>
+</div>
+</main>
+</html>
+<!--
 {% block title_block %}
   User Profile
 {% endblock %}
@@ -31,3 +53,4 @@
 
   <a href="{% url 'logout' %}" class="btn btn-primary">Log Out</a>
 {% endblock %}
+-->
