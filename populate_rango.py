@@ -1,11 +1,11 @@
 import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE',
-                    'shelves.settings')
+                    'shelves_projrct.settings')
 
 import django
 django.setup()
 import datetime
-from shelves_project.models import Media, Book, Movie, Show, Song, Post
+from shelves.models import Media, Book, Movie, Show, Song, Post
 from django.contrib.auth.models import User
 
 def populate():

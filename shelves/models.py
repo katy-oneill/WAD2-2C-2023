@@ -138,7 +138,6 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     # Attributes
-    picture = models.ImageField(blank=True)
     age = models.IntegerField(validators=[MinValueValidator(13)])
     joinDate = models.DateField(default=datetime.date.today)
 

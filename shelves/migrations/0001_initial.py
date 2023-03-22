@@ -46,7 +46,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('duration', models.DurationField(default=datetime.timedelta(0))),
-                ('media', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='shelves_project.Media')),
+                ('media', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='shelves.Media')),
             ],
         ),
         migrations.CreateModel(
@@ -55,7 +55,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('episodes', models.IntegerField(default=0)),
                 ('seasons', models.IntegerField(default=0)),
-                ('media', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='shelves_project.Media')),
+                ('media', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='shelves.Media')),
             ],
         ),
         migrations.CreateModel(
@@ -64,7 +64,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('location', models.CharField(max_length=50)),
                 ('duration', models.DurationField(default=datetime.timedelta(0))),
-                ('media', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='shelves_project.Media')),
+                ('media', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='shelves.Media')),
             ],
         ),
         migrations.CreateModel(
@@ -72,7 +72,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('isbn', models.CharField(max_length=13, validators=[django.core.validators.MinLengthValidator(13), django.core.validators.RegexValidator(re.compile('^\\d+(?:\\d+)*\\Z'), code='invalid', message=None)])),
-                ('media', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='shelves_project.Media')),
+                ('media', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='shelves.Media')),
             ],
         ),
         migrations.CreateModel(
@@ -85,7 +85,7 @@ class Migration(migrations.Migration):
                 ('publishDate', models.DateField(default=datetime.date.today)),
                 ('likes', models.IntegerField(default=0)),
                 ('slug', models.SlugField(unique=True)),
-                ('media', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='shelves_project.Media')),
+                ('media', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='shelves.Media')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
             options={
