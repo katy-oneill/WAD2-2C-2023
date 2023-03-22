@@ -5,8 +5,19 @@
 {% block title_block %}Login/Signup{% endblock %}
 
 {% block body_block %}
+<style>
+  img{
+    max-width: 100%;
+    max-height: 100%;
+        display: block;
+  }
+  p{
+    font-family: sans-serif;
+    font-size:larger;
+  }
+</style>
 
-<h2>Want to know about us?</h2>
+<h2 style="font-family: sans-serif;">Want to know about us?</h2>
 
 <div class="container">
   <img src="../../static/images/share_media.png" alt="picture of share media logo" class="image">
@@ -23,34 +34,34 @@
 </div>
 
 <div class="container-final">
-  <img src="../../static/images/likebutton.png" alt="picture of like button logo" class="image">
+  <img src="../../static/images/connect.png" alt="picture of connection logo" class="image">
   <div class="overlay">
     <div class="text">Connect with friends..</div>
   </div>
 </div>
 <div class="container">
-  <img src="../../static/images/likebutton.png" alt="picture of like button logo" class="image">
+  <img src="../../static/images/conversation.png" alt="picture of conversation button logo" class="image">
   <div class="overlay">
     <div class="text">Allow friends to not just get inspired by your favs but also give their own feedback in the forms of likes and shares!</div>
   </div>
 </div>
 <div class="container-final">
-  <img src="../../static/images/likebutton.png" alt="picture of like button logo" class="image">
+  <img src="../../static/images/notes.png" alt="picture of notes logo" class="image">
   <div class="overlay">
     <div class="text">Write personal notes to describe your experience about any media!</div>
   </div>
 </div>
 <div class="container">
-  <img src="../../static/images/likebutton.png" alt="picture of like button logo" class="image">
+  <img src="../../static/images/search.png" alt="picture of search button logo" class="image">
   <div class="overlay">
-    <div class="text">Get a chance to share your favorites!</div>
+    <div class="text">Lookup what you've stored or what your friends have shared!</div>
   </div>
 </div>
 
 <div class="login-signup">
-  <h2>Login or Signup</h2>
-  <p>Already have an account with us? <a href="{% url 'login' %}"> Login</a></p>
-  <p>Don't have an account yet? It's that easy! <a href="{% url 'register' %}">Register</a></p>
+  <h2 style="font-family: sans-serif;">Login or Signup</h2>
+  <p>Already have an account with us? <a href="{% url 'login' %}" class="button"> Login</a></p>
+  <p>Don't have an account yet? It's that easy! <a href="{% url 'register' %}" class="button">Register</a></p>
 </div>
 
 {% endblock %}
