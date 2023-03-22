@@ -1,6 +1,28 @@
 <!DOCTYPE html>
 {% load static %}
 
+<style>
+    .button{
+        background-color: #8a2be2;
+        border: 2px solid #555555;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration-line: underline;
+        text-decoration-style: solid;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: 12px;
+    }
+    .button:hover {background-color: #6317a9}
+
+    .button:active {
+    background-color: #6317a9;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+    }
+</style>
+
 <html>
     <head lang="en">
         <meta charset="UTF-8" />
@@ -13,14 +35,14 @@
     </head>
     <body>
         <header>
-            <a href="{% url 'launch' %}">Home</a>
+            <a href="{% url 'launch' %}" class="button">Home</a>
             {% if user.is_authenticated %}
                 <a href="{% url 'logout' %}?next={{ request.path }}">Logout</a>
             {% endif %}
         </header>
 
         <main>
-            <h1 id = "heading"> Welcome to the shelves apps</h1>
+            <h1 id = "heading" style="font-family: sans-serif;"> Welcome to Shelves</h1>
             
             {% block body_block %}
             {% endblock %}
