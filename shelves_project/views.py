@@ -15,3 +15,9 @@ def personal(request):
 
 def social(request):
     return render(request, 'shelves/social.html')
+
+def login(request):
+    return render(request, 'shelves/login.html')
+
+def register(request):
+    return render(request, 'shelves/register.html')
