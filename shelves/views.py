@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from shelves.form import RegistrationForm
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from shelves.models import UserProfile
 
 def launch(request):
@@ -18,6 +18,10 @@ def social(request):
 
 def login_view(request):
     return render(request, 'shelves/login.html')
+
+def logout_view(request):
+    logout(request)
+    return redirect('launch')
 
 def register(request):
     if request.method == 'POST':
@@ -38,7 +42,7 @@ def registration_success(request):
 
 def profile(request):
     try:
-        user_profile = UserProfile.objects.get(user=request.user)
+        user_profile = request.user.userprofile
     except UserProfile.DoesNotExist:
         user_profile = None
     return render(request, 'shelves/profile.html', {'user_profile': user_profile})

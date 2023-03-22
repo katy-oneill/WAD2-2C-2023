@@ -16,6 +16,7 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('registration_success/', views.registration_success, name='registration_success'),
     path('accounts/profile/', views.profile, name='profile'),
+    path('logout/', views.logout_view, name='logout'),
 ]
 
 if settings.DEBUG:
