@@ -5,13 +5,18 @@
 
 {% block title_block %}Register{% endblock %}
 
+{% block header %}
+    
+    <h1 id = "heading" style="font-family: sans-serif;"> Register</h1>
+{% endblock %}
+
 {% block body_block %}
 
 <div class="form-box">
 
-<h1>Register</h1>
 
-<form method="post" enctype="multipart/form-data" action="{% url 'dashboard' %}">
+
+<form method="post" enctype="multipart/form-data" >
   
     {% csrf_token %}
     {{ form.as_p }}

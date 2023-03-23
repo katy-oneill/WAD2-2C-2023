@@ -37,15 +37,14 @@ def movies(request):
     return render(request, 'shelves/movies.html')
 
 def register(request):
+    form = RegistrationForm()
     if request.method == 'POST':
         form = RegistrationForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save()
             picture = form.cleaned_data.get('picture')
             age = form.cleaned_data.get('age')
-            age = models.IntegerField(validators=[MinValueValidator(13)])
-            joinDate = models.DateField(default=datetime.date.today)
-            UserProfile.objects.create(user=user, picture=picture, age=age)
+            UserProfile.objects.create(user=user, age=age)
             login(request, user)
             return redirect('registration_success')
     else:

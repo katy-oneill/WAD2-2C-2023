@@ -12,18 +12,23 @@
         </title>
     </head>
     <body>
+        
         <header>
+            <div class="navbar">
             <a href="{% url 'launch' %}" class="button">Home</a>
             {% if user.is_authenticated %}
                 <a href="{% url 'logout' %}?next={{ request.path }}">Logout</a>
             {% endif %}
+            {% block header %}
+            {% endblock %}
         </header>
 
         <main>
-            <h1 id = "heading" style="font-family: sans-serif;"> Welcome to Shelves</h1>
+            
             
             {% block body_block %}
             {% endblock %}
         </main>
+        </div>
     </body>
 </html>

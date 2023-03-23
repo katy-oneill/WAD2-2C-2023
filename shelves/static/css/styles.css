@@ -8,9 +8,10 @@ body{
 }
 
 #heading {
-    color: blue;
+    color: white;
     text-align: center;
     font-family: cursive;
+    padding: 1%;
 }
 
 .container {
@@ -106,7 +107,7 @@ body{
   color: white;
   font-family: "Monaco", monospace;
   text-align: center;
-  padding: 14px 16px;
+  padding: 50px 16px;
   text-decoration: none;
   font-size: 17px;
 }
@@ -118,11 +119,11 @@ body{
 
 .navbar input[type=text] {
   float: left;
-  padding: 6px;
+  padding: 0.8%;
   border: none;
-  margin-top: 8px;
-  margin-right: 16px;
-  margin-left: 8px;
+  margin-top: 1%;
+  margin-right: 16px; 
+  margin-bottom: 1%; 
   font-size: 17px;
 }
 
