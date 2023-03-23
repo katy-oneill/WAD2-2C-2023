@@ -17,6 +17,10 @@ urlpatterns = [
     path('registration_success/', views.registration_success, name='registration_success'),
     path('accounts/dashboard/', views.dashboard, name='dashboard'),
     path('logout/', views.logout_view, name='logout'),
+    path('accounts/dashboard/books/', views.books, name="books"),
+    path('accounts/dashboard/albums/', views.albums, name="albums"),
+    path('accounts/dashboard/shows/', views.shows, name="shows"),
+    path('accounts/dashboard/movies/', views.movies, name="movies"),
 ]
 
 if settings.DEBUG:
