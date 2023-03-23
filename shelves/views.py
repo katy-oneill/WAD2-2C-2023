@@ -31,6 +31,8 @@ def register(request):
             user = form.save()
             picture = form.cleaned_data.get('picture')
             age = form.cleaned_data.get('age')
+            age = models.IntegerField(validators=[MinValueValidator(13)])
+            joinDate = models.DateField(default=datetime.date.today)
             UserProfile.objects.create(user=user, picture=picture, age=age)
             login(request, user)
             return redirect('registration_success')
@@ -41,10 +43,11 @@ def register(request):
 def registration_success(request):
     return HttpResponse("Registration successful! You are now logged in.")
 
-@login_required
+# @login_required
 def dashboard(request):
-    try:
-        user_profile = request.user.userprofile
-    except UserProfile.DoesNotExist:
-        user_profile = None
-    return render(request, 'shelves/dashboard.html', {'user_profile': user_profile})
+    # try:
+    #     user_profile = request.user.userprofile
+    # except UserProfile.DoesNotExist:
+    #     user_profile = None
+    # return render(request, 'shelves/dashboard.html', {'user_profile': user_profile})
+    return render(request, 'shelves/dashboard.html')
