@@ -21,6 +21,13 @@ urlpatterns = [
     path('accounts/dashboard/albums/', views.albums, name="albums"),
     path('accounts/dashboard/shows/', views.shows, name="shows"),
     path('accounts/dashboard/movies/', views.movies, name="movies"),
+
+    path('add_media/', views.add_media, name='add_media'),
+    path('<slug:media_title_slug>/add_book_details/', views.add_book_details, name='add_book_details'),
+    path('<slug:media_title_slug>/add_movie_details/', views.add_movie_details, name='add_movie_details'),
+    path('<slug:media_title_slug>/add_show_details/', views.add_show_details, name='add_show_details'),
+    path('<slug:media_title_slug>/add_song_details/', views.add_song_details, name='add_song_details'),
+    path('<slug:media_title_slug>/add_post/', views.add_post, name='add_post'),
 ]
 
 if settings.DEBUG:

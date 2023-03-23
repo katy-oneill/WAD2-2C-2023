@@ -6,20 +6,31 @@ from django.core.validators import MinValueValidator, MaxValueValidator, MinLeng
 
 
 class Media(models.Model):
+    # FK
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    
+    # Choice types
+    TYPE_CHOICES = (
+       ('Book','Book'),
+       ('Movie','Movie'),
+       ('Show','Show'),
+       ('Song','Song'),
+    )
+
     # Max-length values
     TITLE_MAX_LENGTH = 50
     WRITER_MAX_LENGTH = 50
     LANG_MAX_LENGTH = 50
     TYPE_MAX_LENGTH = 50
-    
+
     # Fields
     title = models.CharField(max_length=TITLE_MAX_LENGTH, unique=True)
-    mediaCoverImage = models.ImageField(blank=True)
+    type = models.CharField(max_length=TYPE_MAX_LENGTH, choices=TYPE_CHOICES)
+    coverImage = models.ImageField(blank=True)
     writer = models.CharField(max_length=WRITER_MAX_LENGTH)
     language = models.CharField(max_length=LANG_MAX_LENGTH)
-    publishDate = models.DateField(blank=True)
+    releaseDate = models.DateField(blank=True, validators=[MaxValueValidator(limit_value=datetime.date.today)])
     avgScore = models.FloatField(default=0)
-    type = models.CharField(max_length=TYPE_MAX_LENGTH, default=None)
     
     # Keep track of avg. rating for media
     def updateAvgScore(self, media):
@@ -43,6 +54,7 @@ class Media(models.Model):
     slug = models.SlugField(unique=True)
     
     def save(self, *args, **kwargs):
+        self.type = self.type.lower()
         self.slug = slugify(self.title)
         super(Media, self).save(*args, **kwargs)
     
@@ -51,7 +63,7 @@ class Book(models.Model):
     # FK
     media = models.OneToOneField(Media, on_delete=models.CASCADE)
 
-    # Max Length Values
+    # Max-length values
     ISBN_MAX_LENGTH = 13
 
     # Fields
@@ -64,12 +76,8 @@ class Book(models.Model):
 class Movie(models.Model):
     # FK
     media = models.OneToOneField(Media, on_delete=models.CASCADE)
-    
-    # Max Length Values
-    LOC_MAX_LENGTH = 50
 
     # Fields
-    location = models.CharField(max_length=LOC_MAX_LENGTH)
     duration = models.DurationField(default=datetime.timedelta())
     
     def save(self, *args, **kwargs):
@@ -104,12 +112,11 @@ class Post(models.Model):
     media = models.ForeignKey(Media, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    # Max Length Values
+    # Max-length values
     TITLE_MAX_LENGTH = 50
     COMM_MAX_LENGTH = 1000
 
-
-    # Attributes
+    # Fields
     title = models.CharField(max_length=TITLE_MAX_LENGTH)
     rating = models.IntegerField(default=0,validators=[MinValueValidator(0), MaxValueValidator(10)])
     comment = models.TextField(max_length=COMM_MAX_LENGTH, blank=True)
@@ -137,9 +144,11 @@ class UserProfile(models.Model):
     # FK
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
-    # Attributes
+    # Fields
+    picture = models.ImageField(blank=True)
     age = models.IntegerField(validators=[MinValueValidator(13)])
     joinDate = models.DateField(default=datetime.date.today)
 
+    # To string
     def __str__(self):
         return self.user.username
