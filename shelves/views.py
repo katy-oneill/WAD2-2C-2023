@@ -24,6 +24,18 @@ def logout_view(request):
     logout(request)
     return redirect('launch')
 
+def books(request):
+    return render(request, 'shelves/books.html')
+
+def albums(request):
+    return render(request, 'shelves/albums.html')
+
+def shows(request):
+    return render(request, 'shelves/shows.html')
+
+def movies(request):
+    return render(request, 'shelves/movies.html')
+
 def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST, request.FILES)
