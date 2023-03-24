@@ -8,7 +8,10 @@ from django.shortcuts import redirect
 from django.urls import reverse
 
 def launch(request):
-    return render(request, 'shelves/launch.html')
+    if request.user.is_authenticated:
+        return render(request, 'shelves/dashboard.html')
+    else:
+        return render(request, 'shelves/launch.html')
 
 def friends(request):
     return render(request, 'shelves/friends.html')
