@@ -54,7 +54,7 @@ def add_media(request):
             media = media_form.save(commit=False)
             media.user = request.user
             media.save()
-            
+
             if media.type == "book":
                 return redirect(reverse('shelves:add_book_details', kwargs={'media_title_slug': media.slug}))
             elif media.type == "movie":
@@ -79,7 +79,7 @@ def add_book_details(request, media_title_slug):
 
     if media is None:
         return redirect(reverse('shelves:add_media'))
-    
+
     book_form = BookForm()
 
     if request.method == 'POST':
@@ -111,7 +111,7 @@ def add_movie_details(request, media_title_slug):
 
     if media is None:
         return redirect(reverse('shelves:add_media'))
-    
+
     movie_form = MovieForm()
 
     if request.method == 'POST':
@@ -129,7 +129,7 @@ def add_movie_details(request, media_title_slug):
                                     movie.media.type}))
         else:
             print(movie_form.errors)
-    
+
     context_dict = {'form': movie_form, 'media': media}
     return render(request, 'shelves/add_movie_details.html', context=context_dict)
 
@@ -143,7 +143,7 @@ def add_show_details(request, media_title_slug):
 
     if media is None:
         return redirect(reverse('shelves:add_media'))
-    
+
     show_form = ShowForm()
 
     if request.method == 'POST':
@@ -153,7 +153,7 @@ def add_show_details(request, media_title_slug):
             show = show_form.save(commit=False)
             show.media = media
             show.save()
-            
+
             return redirect(reverse('shelves:show_media',
                             kwargs={'media_title_slug':
                                     media_title_slug,
@@ -175,7 +175,7 @@ def add_song_details(request, media_title_slug):
 
     if media is None:
         return redirect(reverse('shelves:add_media'))
-    
+
     song_form = SongForm()
 
     if request.method == 'POST':
@@ -185,7 +185,7 @@ def add_song_details(request, media_title_slug):
             song = song_form.save(commit=False)
             song.media = media
             song.save()
-            
+
             return redirect(reverse('shelves:show_media',
                             kwargs={'media_title_slug':
                                     media_title_slug,
@@ -246,13 +246,14 @@ def register(request):
     return render(request, 'shelves/register.html', {'form': form})
 
 def registration_success(request):
-    return HttpResponse("Registration successful! You are now logged in.")
+    user_profile = request.user.userprofile
+    return render(request, 'shelves/dashboard.html', {'user_profile': user_profile})
 
 # @login_required
 def dashboard(request):
-    # try:
-    #     user_profile = request.user.userprofile
-    # except UserProfile.DoesNotExist:
-    #     user_profile = None
-    # return render(request, 'shelves/dashboard.html', {'user_profile': user_profile})
-    return render(request, 'shelves/dashboard.html')
+    try:
+        user_profile = request.user.userprofile
+    except UserProfile.DoesNotExist:
+        user_profile = None
+    return render(request, 'shelves/dashboard.html', {'user_profile': user_profile})
+
