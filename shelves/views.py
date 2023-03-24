@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from shelves.form import RegistrationForm, MediaForm, BookForm, MovieForm, ShowForm, SongForm, PostForm
+from shelves.form import ProfileUpdateForm, RegistrationForm, MediaForm, BookForm, MovieForm, ShowForm, SongForm, PostForm
 from django.contrib.auth import login, logout
 from shelves.models import Media, Book, Movie, Show, Song, Post, UserProfile
 from django.contrib.auth.decorators import login_required
@@ -12,9 +12,6 @@ def launch(request):
 
 def friends(request):
     return render(request, 'shelves/friends.html')
-
-def profile(request):
-    return render(request, 'shelves/profile.html')
 
 def social(request):
     return render(request, 'shelves/social.html')
@@ -38,6 +35,28 @@ def shows(request):
 def movies(request):
     return render(request, 'shelves/movies.html')
 
+@login_required
+def view_profile(request):
+    user = request.user
+    profile = UserProfile.objects.get(user=user)
+    context = {'user': user, 'profile': profile}
+    return render(request, 'shelves/view_profile.html', context)
+
+@login_required
+def edit_profile(request):
+    user = request.user
+    profile = UserProfile.objects.get(user=user)
+    profile_form = ProfileUpdateForm(instance=profile)
+
+    if request.method == 'POST':
+        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=profile)
+        if profile_form.is_valid():
+            profile_form.save()
+            messages.success(request, 'Profile updated successfully!')
+            return redirect(reverse('shelves:view_profile'))
+
+    context = {'user': user, 'profile_form': profile_form}
+    return render(request, 'shelves/edit_profile.html', context)
 
 # Add media -> redirect user to submit extra information
 # pertinent to the specific type of media they've added.
@@ -256,4 +275,3 @@ def dashboard(request):
     except UserProfile.DoesNotExist:
         user_profile = None
     return render(request, 'shelves/dashboard.html', {'user_profile': user_profile})
-

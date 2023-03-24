@@ -2,32 +2,19 @@
 {% extends "shelves/base.html" %}
 
 {% block title_block %}
-  User Profile
+  Edit User Profile
 {% endblock %}
 
 {% block content %}
-  <h1>User Profile</h1>
+  <h1>THIS IS THE PROFILE PAGE</h1>
+  <h1>Edit User Profile</h1>
   <p>Welcome, {{ user.username }}!</p>
 
-  <h2>Account Information</h2>
-  <ul>
-    <li>First Name: {{ user.first_name }}</li>
-    <li>Last Name: {{ user.last_name }}</li>
-    <li>Email: {{ user.email }}</li>
-  </ul>
-
-  {% if user.userprofile.picture %}
-    <img src="{{ user.userprofile.picture.url }}" alt="{{ user.username }} profile picture" width="200px">
-  {% else %}
-    <p>No profile picture uploaded.</p>
-  {% endif %}
-
-  <h2>Update Profile Picture</h2>
   <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ picture_form.as_p }}
+    {{ profile_form.as_p }}
     <button type="submit" class="btn btn-primary">Update</button>
   </form>
 
-  <a href="{% url 'logout' %}" class="btn btn-primary">Log Out</a>
+  <a href="{% url 'view_profile' %}" class="btn btn-primary">View Profile</a>
 {% endblock %}

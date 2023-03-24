@@ -108,3 +108,8 @@ class RegistrationForm(UserCreationForm):
             user.save()
 
         return user
+    
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['age', 'picture']
