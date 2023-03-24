@@ -16,8 +16,8 @@ def launch(request):
 def friends(request):
     return render(request, 'shelves/friends.html')
 
-def personal(request):
-    return render(request, 'shelves/personal.html')
+def profile(request):
+    return render(request, 'shelves/profile.html')
 
 def social(request):
     return render(request, 'shelves/social.html')
