@@ -25,7 +25,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts', include('django.contrib.auth.urls')),
     path('friends/', views.friends, name='friends'),
-    path('personal/', views.personal, name='personal'),
     path('social/', views.social, name='social'),
     path('accounts/login/', auth_views.LoginView.as_view(template_name='shelves/login.html'), name='login'),
     path('register/', views.register, name='register'),
