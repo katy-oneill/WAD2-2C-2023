@@ -13,8 +13,8 @@ def launch(request):
 def friends(request):
     return render(request, 'shelves/friends.html')
 
-def personal(request):
-    return render(request, 'shelves/personal.html')
+def profile(request):
+    return render(request, 'shelves/profile.html')
 
 def social(request):
     return render(request, 'shelves/social.html')
@@ -55,7 +55,7 @@ def add_media(request):
             media = media_form.save(commit=False)
             media.user = request.user
             media.save()
-            
+
             if media.type == "book":
                 return redirect(reverse('add_book_details', kwargs={'media_title_slug': media.slug}))
             elif media.type == "movie":
@@ -130,7 +130,7 @@ def add_movie_details(request, media_title_slug):
                                     movie.media.type}))
         else:
             print(movie_form.errors)
-    
+
     context_dict = {'form': movie_form, 'media': media}
     return render(request, 'shelves/add_movie_details.html', context=context_dict)
 
@@ -247,13 +247,14 @@ def register(request):
     return render(request, 'shelves/register.html', {'form': form})
 
 def registration_success(request):
-    return HttpResponse("Registration successful! You are now logged in.")
+    user_profile = request.user.userprofile
+    return render(request, 'shelves/dashboard.html', {'user_profile': user_profile})
 
 # @login_required
 def dashboard(request):
-    # try:
-    #     user_profile = request.user.userprofile
-    # except UserProfile.DoesNotExist:
-    #     user_profile = None
-    # return render(request, 'shelves/dashboard.html', {'user_profile': user_profile})
-    return render(request, 'shelves/dashboard.html')
+    try:
+        user_profile = request.user.userprofile
+    except UserProfile.DoesNotExist:
+        user_profile = None
+    return render(request, 'shelves/dashboard.html', {'user_profile': user_profile})
+
