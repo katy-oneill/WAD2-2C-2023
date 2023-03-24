@@ -152,3 +152,8 @@ class UserProfile(models.Model):
     # To string
     def __str__(self):
         return self.user.username
+
+class Friendship(models.Model):
+    user = models.ForeignKey(User, related_name='user', on_delete=models.CASCADE)
+    follower = models.ForeignKey(User, related_name='follower', on_delete=models.CASCADE)
+

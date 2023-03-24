@@ -1,14 +1,18 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from shelves.form import ProfileUpdateForm, RegistrationForm, MediaForm, BookForm, MovieForm, ShowForm, SongForm, PostForm
+from shelves.form import ProfileUpdateForm, RegistrationForm, MediaForm, BookForm, MovieForm, ShowForm, SongForm, PostForm, FriendshipForm
 from django.contrib.auth import login, logout
 from shelves.models import Media, Book, Movie, Show, Song, Post, UserProfile
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 def launch(request):
-    return render(request, 'shelves/launch.html')
+    if request.user.is_authenticated:
+        return render(request, 'shelves/dashboard.html')
+    else:
+        return render(request, 'shelves/launch.html')
 
 def friends(request):
     return render(request, 'shelves/friends.html')
@@ -58,6 +62,7 @@ def edit_profile(request):
     context = {'user': user, 'profile_form': profile_form}
     return render(request, 'shelves/edit_profile.html', context)
 
+
 # Add media -> redirect user to submit extra information
 # pertinent to the specific type of media they've added.
 # E.g., if they add a book, redirect them to the page that
@@ -75,13 +80,13 @@ def add_media(request):
             media.save()
 
             if media.type == "book":
-                return redirect(reverse('shelves:add_book_details', kwargs={'media_title_slug': media.slug}))
+                return redirect(reverse('add_book_details', kwargs={'media_title_slug': media.slug}))
             elif media.type == "movie":
-                return redirect(reverse('shelves:add_movie_details', kwargs={'media_title_slug': media.slug}))
+                return redirect(reverse('add_movie_details', kwargs={'media_title_slug': media.slug}))
             elif media.type == "show":
-                return redirect(reverse('shelves:add_show_details', kwargs={'media_title_slug': media.slug}))
+                return redirect(reverse('add_show_details', kwargs={'media_title_slug': media.slug}))
             elif media.type == "song":
-                return redirect(reverse('shelves:add_song_details', kwargs={'media_title_slug': media.slug}))
+                return redirect(reverse('add_song_details', kwargs={'media_title_slug': media.slug}))
 
         else:
             print(media_form.errors)
@@ -97,8 +102,8 @@ def add_book_details(request, media_title_slug):
         media = None
 
     if media is None:
-        return redirect(reverse('shelves:add_media'))
-
+        return redirect(reverse('add_media'))
+    
     book_form = BookForm()
 
     if request.method == 'POST':
@@ -109,7 +114,7 @@ def add_book_details(request, media_title_slug):
             book.media = media
             book.save()
 
-            return redirect(reverse('shelves:show_media',
+            return redirect(reverse('show_media',
                                     kwargs={'media_title_slug':
                                             media_title_slug,
                                             'media_type':
@@ -129,8 +134,8 @@ def add_movie_details(request, media_title_slug):
         media = None
 
     if media is None:
-        return redirect(reverse('shelves:add_media'))
-
+        return redirect(reverse('add_media'))
+    
     movie_form = MovieForm()
 
     if request.method == 'POST':
@@ -141,7 +146,7 @@ def add_movie_details(request, media_title_slug):
             movie.media = media
             movie.save()
 
-            return redirect(reverse('shelves:show_media',
+            return redirect(reverse('show_media',
                             kwargs={'media_title_slug':
                                     media_title_slug,
                                     'media_type':
@@ -161,8 +166,8 @@ def add_show_details(request, media_title_slug):
         media = None
 
     if media is None:
-        return redirect(reverse('shelves:add_media'))
-
+        return redirect(reverse('add_media'))
+    
     show_form = ShowForm()
 
     if request.method == 'POST':
@@ -172,8 +177,8 @@ def add_show_details(request, media_title_slug):
             show = show_form.save(commit=False)
             show.media = media
             show.save()
-
-            return redirect(reverse('shelves:show_media',
+            
+            return redirect(reverse('show_media',
                             kwargs={'media_title_slug':
                                     media_title_slug,
                                     'media_type':
@@ -193,8 +198,8 @@ def add_song_details(request, media_title_slug):
         media = None
 
     if media is None:
-        return redirect(reverse('shelves:add_media'))
-
+        return redirect(reverse('add_media'))
+    
     song_form = SongForm()
 
     if request.method == 'POST':
@@ -204,8 +209,8 @@ def add_song_details(request, media_title_slug):
             song = song_form.save(commit=False)
             song.media = media
             song.save()
-
-            return redirect(reverse('shelves:show_media',
+            
+            return redirect(reverse('show_media',
                             kwargs={'media_title_slug':
                                     media_title_slug,
                                     'media_type':
@@ -240,7 +245,7 @@ def add_post(request, media_title_slug):
                 post.user = request.user
                 post.save()
 
-                return redirect(reverse('shelves:show_media',
+                return redirect(reverse('show_media',
                                         kwargs={'media_title_slug':
                                                 media_title_slug}))
         else:
@@ -275,3 +280,16 @@ def dashboard(request):
     except UserProfile.DoesNotExist:
         user_profile = None
     return render(request, 'shelves/dashboard.html', {'user_profile': user_profile})
+
+def add_friend(request):
+    form = FriendshipForm()
+    if request.method == 'POST':
+        form = FriendshipForm(request.POST)
+        if form.is_valid():
+            friendship = form.save(commit=False)
+            friendship.follower = request.user
+            friendship.save()
+            return redirect('home')
+    else:
+        form = FriendshipForm()
+    return render(request, 'add_friend.html', {'form': form})
