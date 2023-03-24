@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from shelves.form import RegistrationForm, MediaForm, BookForm, MovieForm, ShowForm, SongForm, PostForm
+from shelves.form import RegistrationForm, MediaForm, BookForm, MovieForm, ShowForm, SongForm, PostForm, FriendshipForm
 from django.contrib.auth import login, logout
 from shelves.models import Media, Book, Movie, Show, Song, Post, UserProfile
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 def launch(request):
     if request.user.is_authenticated:
@@ -261,3 +262,15 @@ def dashboard(request):
         user_profile = None
     return render(request, 'shelves/dashboard.html', {'user_profile': user_profile})
 
+def add_friend(request):
+    form = FriendshipForm()
+    if request.method == 'POST':
+        form = FriendshipForm(request.POST)
+        if form.is_valid():
+            friendship = form.save(commit=False)
+            friendship.follower = request.user
+            friendship.save()
+            return redirect('home')
+    else:
+        form = FriendshipForm()
+    return render(request, 'add_friend.html', {'form': form})
