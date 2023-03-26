@@ -115,4 +115,8 @@ class FriendshipForm(forms.ModelForm):
         model = Friendship
         fields = []
 
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['age', 'picture']
 

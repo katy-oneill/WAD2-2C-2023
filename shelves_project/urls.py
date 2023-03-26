@@ -31,6 +31,8 @@ urlpatterns = [
     path('registration_success/', views.registration_success, name='registration_success'),
     path('accounts/dashboard/', views.dashboard, name='dashboard'),
     path('logout/', views.logout_view, name='logout'),
+    path('profile/', views.view_profile, name='view_profile'),
+    path('profile/edit/', views.edit_profile, name='edit_profile'),
 ]
 
 if settings.DEBUG:

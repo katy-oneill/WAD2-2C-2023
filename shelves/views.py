@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from shelves.form import RegistrationForm, MediaForm, BookForm, MovieForm, ShowForm, SongForm, PostForm, FriendshipForm
+from shelves.form import ProfileUpdateForm, RegistrationForm, MediaForm, BookForm, MovieForm, ShowForm, SongForm, PostForm, FriendshipForm
 from django.contrib.auth import login, logout
 from shelves.models import Media, Book, Movie, Show, Song, Post, UserProfile
 from django.contrib.auth.decorators import login_required
@@ -16,9 +16,6 @@ def launch(request):
 
 def friends(request):
     return render(request, 'shelves/friends.html')
-
-def profile(request):
-    return render(request, 'shelves/profile.html')
 
 def social(request):
     return render(request, 'shelves/social.html')
@@ -42,6 +39,28 @@ def shows(request):
 def movies(request):
     return render(request, 'shelves/movies.html')
 
+@login_required
+def view_profile(request):
+    user = request.user
+    profile = UserProfile.objects.get(user=user)
+    context = {'user': user, 'profile': profile}
+    return render(request, 'shelves/view_profile.html', context)
+
+@login_required
+def edit_profile(request):
+    user = request.user
+    profile = UserProfile.objects.get(user=user)
+    profile_form = ProfileUpdateForm(instance=profile)
+
+    if request.method == 'POST':
+        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=profile)
+        if profile_form.is_valid():
+            profile_form.save()
+            messages.success(request, 'Profile updated successfully!')
+            return redirect(reverse('shelves:view_profile'))
+
+    context = {'user': user, 'profile_form': profile_form}
+    return render(request, 'shelves/edit_profile.html', context)
 
 
 # Add media -> redirect user to submit extra information
@@ -59,15 +78,7 @@ def add_media(request):
             media = media_form.save(commit=False)
             media.user = request.user
             media.save()
-
-            if media.type == "book":
-                return redirect(reverse('add_book_details', kwargs={'media_title_slug': media.slug}))
-            elif media.type == "movie":
-                return redirect(reverse('add_movie_details', kwargs={'media_title_slug': media.slug}))
-            elif media.type == "show":
-                return redirect(reverse('add_show_details', kwargs={'media_title_slug': media.slug}))
-            elif media.type == "song":
-                return redirect(reverse('add_song_details', kwargs={'media_title_slug': media.slug}))
+            return redirect(reverse('add_type_details', kwargs={'media_title_slug': media.slug}))
 
         else:
             print(media_form.errors)
@@ -76,131 +87,42 @@ def add_media(request):
 
 
 @login_required
-def add_book_details(request, media_title_slug):
+def add_type_details(request, media_title_slug):
     try:
         media = Media.objects.get(slug=media_title_slug)
     except Media.DoesNotExist:
         media = None
 
     if media is None:
-        return redirect(reverse('add_media'))
+        return redirect(reverse('shelves:add_media'))
     
-    book_form = BookForm()
+    if media.type == "book":
+        type_form = BookForm
+    elif media.type == 'movie':
+        type_form = MovieForm
+    elif media.type == 'show':
+        type_form = ShowForm
+    elif media.type == 'song':
+        type_form = SongForm
 
     if request.method == 'POST':
-        book_form = BookForm(request.POST)
+        type_form = type_form(request.POST)
 
-        if book_form.is_valid():
-            book = book_form.save(commit=False)
-            book.media = media
-            book.save()
+        if type_form.is_valid():
+            type = type_form.save(commit=False)
+            type.media = media
+            type.save()
 
             return redirect(reverse('show_media',
                                     kwargs={'media_title_slug':
                                             media_title_slug,
                                             'media_type':
-                                            book.media.type}))
+                                            media.type}))
         else:
-            print(book_form.errors)
+            print(type_form.errors)
 
-    context_dict = {'form': book_form, 'media': media}
-    return render(request, 'shelves/add_book_details.html', context=context_dict)
-
-
-@login_required
-def add_movie_details(request, media_title_slug):
-    try:
-        media = Media.objects.get(slug=media_title_slug)
-    except Media.DoesNotExist:
-        media = None
-
-    if media is None:
-        return redirect(reverse('add_media'))
-    
-    movie_form = MovieForm()
-
-    if request.method == 'POST':
-        movie_form = MovieForm(request.POST)
-
-        if movie_form.is_valid():
-            movie = movie_form.save(commit=False)
-            movie.media = media
-            movie.save()
-
-            return redirect(reverse('show_media',
-                            kwargs={'media_title_slug':
-                                    media_title_slug,
-                                    'media_type':
-                                    movie.media.type}))
-        else:
-            print(movie_form.errors)
-
-    context_dict = {'form': movie_form, 'media': media}
-    return render(request, 'shelves/add_movie_details.html', context=context_dict)
-
-
-@login_required
-def add_show_details(request, media_title_slug):
-    try:
-        media = Media.objects.get(slug=media_title_slug)
-    except Media.DoesNotExist:
-        media = None
-
-    if media is None:
-        return redirect(reverse('add_media'))
-    
-    show_form = ShowForm()
-
-    if request.method == 'POST':
-        show_form = ShowForm(request.POST)
-
-        if show_form.is_valid():
-            show = show_form.save(commit=False)
-            show.media = media
-            show.save()
-            
-            return redirect(reverse('show_media',
-                            kwargs={'media_title_slug':
-                                    media_title_slug,
-                                    'media_type':
-                                    show.media.type}))
-        else:
-            print(show_form.errors)
-
-    context_dict = {'form': show_form, 'media': media}
-    return render(request, 'shelves/add_show_details.html', context=context_dict)
-
-
-@login_required
-def add_song_details(request, media_title_slug):
-    try:
-        media = Media.objects.get(slug=media_title_slug)
-    except Media.DoesNotExist:
-        media = None
-
-    if media is None:
-        return redirect(reverse('add_media'))
-    
-    song_form = SongForm()
-
-    if request.method == 'POST':
-        song_form = SongForm(request.POST)
-
-        if song_form.is_valid():
-            song = song_form.save(commit=False)
-            song.media = media
-            song.save()
-            
-            return redirect(reverse('show_media',
-                            kwargs={'media_title_slug':
-                                    media_title_slug,
-                                    'media_type':
-                                    song.media.type}))
-        else:
-            print(song_form.errors)
-
-    context_dict = {'form': song_form, 'media': media}
-    return render(request, 'shelves/add_song_details.html', context=context_dict)
+    context_dict = {'form': type_form, 'media': media}
+    return render(request, 'shelves/add_type_details.html', context=context_dict)
 
 
 @login_required
