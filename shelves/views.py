@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from shelves.form import ProfileUpdateForm, RegistrationForm, MediaForm, BookForm, MovieForm, ShowForm, SongForm, PostForm, FriendshipForm
 from django.contrib.auth import login, logout
-from shelves.models import Media, Book, Movie, Show, Song, Post, UserProfile
+from shelves.models import Media, Book, Movie, Show, Song, Post, UserProfile, Friendship
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -42,7 +42,7 @@ def movies(request):
 @login_required
 def view_profile(request):
     user = request.user
-    profile = UserProfile.objects.get(user=user)
+    profile = UserProfile.objects.get_or_create(user=user)[0]
     context = {'user': user, 'profile': profile}
     return render(request, 'shelves/view_profile.html', context)
 
@@ -94,7 +94,7 @@ def add_type_details(request, media_title_slug):
         media = None
 
     if media is None:
-        return redirect(reverse('shelves:add_media'))
+        return redirect(reverse('add_media'))
     
     if media.type == "book":
         type_form = BookForm
@@ -196,3 +196,33 @@ def add_friend(request):
     else:
         form = FriendshipForm()
     return render(request, 'add_friend.html', {'form': form})
+
+
+@login_required
+def send_friend_request(request, username):
+    sender = request.user
+    receiver = User.objects.get(username=username)
+    
+    Friendship.objects.get_or_create(sender=sender, receiver=receiver)
+    return redirect(reverse('view_profile', kwargs={'username':username}))
+
+
+@login_required
+def accept_friend_request(request, username):
+    receiver = request.user
+    sender = User.objects.get(username=username)
+
+    try:
+        friend_request = Friendship.objects.get(sender=sender, receiver=receiver)
+    except:
+        friend_request = None
+
+    if friend_request != None:
+        receiver = UserProfile.objects.get(user=receiver)
+        sender = UserProfile.objects.get(user=sender)
+        
+        sender.friends.add(receiver)
+        receiver.friends.add(sender)
+        friend_request.delete()
+    
+    return redirect(reverse('view_profile', kwargs={'username':username}))

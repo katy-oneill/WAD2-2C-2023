@@ -28,6 +28,8 @@ urlpatterns = [
     path('add_media/', views.add_media, name='add_media'),
     path('<slug:media_title_slug>/add_details/', views.add_type_details, name='add_type_details'),
     path('<slug:media_title_slug>/add_post/', views.add_post, name='add_post'),
+    path('<username>/send_friend_request/', views.send_friend_request, name='send_friend_request'),
+    path('<username>/accept_friend_request/', views.accept_friend_request, name='accept_friend_request'),
 ]
 
 if settings.DEBUG:

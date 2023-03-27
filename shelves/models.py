@@ -141,10 +141,11 @@ class Post(models.Model):
 class UserProfile(models.Model):
     # FK
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    friends = models.ManyToManyField('UserProfile', blank=True)
 
     # Fields
     picture = models.ImageField(blank=True)
-    age = models.IntegerField(validators=[MinValueValidator(13)])
+    age = models.IntegerField(validators=[MinValueValidator(13)], null=True)
     joinDate = models.DateField(default=datetime.date.today)
 
     # To string
@@ -152,6 +153,9 @@ class UserProfile(models.Model):
         return self.user.username
 
 class Friendship(models.Model):
-    user = models.ForeignKey(User, related_name='user', on_delete=models.CASCADE)
-    follower = models.ForeignKey(User, related_name='follower', on_delete=models.CASCADE)
+    # FK
+    sender = models.ForeignKey(User, related_name='sender', on_delete=models.CASCADE)
+    receiver = models.ForeignKey(User, related_name='receiver', on_delete=models.CASCADE)
 
+    class Meta:
+        unique_together = ('sender','receiver')
