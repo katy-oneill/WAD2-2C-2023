@@ -184,18 +184,21 @@ def dashboard(request):
         user_profile = None
     return render(request, 'shelves/dashboard.html', {'user_profile': user_profile})
 
-def add_friend(request):
-    form = FriendshipForm()
+def social(request):
+
     if request.method == 'POST':
         form = FriendshipForm(request.POST)
         if form.is_valid():
             friendship = form.save(commit=False)
             friendship.follower = request.user
             friendship.save()
-            return redirect('home')
+            return redirect('social')
     else:
         form = FriendshipForm()
-    return render(request, 'add_friend.html', {'form': form})
+    return render(request, 'shelves/social.html', {'form': form})
+
+#def social(request):
+ #   return 0
 
 
 @login_required

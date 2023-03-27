@@ -100,6 +100,9 @@ body{
   .navbar {
   background-color: #06384a;
   overflow: hidden;
+  padding-bottom: 10px;
+  display: block;
+  float: top;
 }
 
 .navbar a {

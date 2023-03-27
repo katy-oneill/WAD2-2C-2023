@@ -26,6 +26,7 @@ urlpatterns = [
     path('accounts/dashboard/movies/', views.movies, name="movies"),
 
     path('add_media/', views.add_media, name='add_media'),
+    path('social/', views.social, name='social'),
     path('<slug:media_title_slug>/add_details/', views.add_type_details, name='add_type_details'),
     path('<slug:media_title_slug>/add_post/', views.add_post, name='add_post'),
     path('<username>/send_friend_request/', views.send_friend_request, name='send_friend_request'),

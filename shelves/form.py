@@ -110,10 +110,16 @@ class RegistrationForm(UserCreationForm):
         return user
 
 class FriendshipForm(forms.ModelForm):
-    username = forms.CharField(label='Email', required=True)
+    add_email = forms.EmailField(label='Email', required=True)
     class Meta:
         model = Friendship
-        fields = []
+        fields = ('user', 'follower')
+
+    def save(self, commit=True):
+        friendship = super(FriendshipForm, self).save(commit=False)
+        friendship.user = self.cleaned_data['add_email']
+        friendship.follower = request.user.email
+
 
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
