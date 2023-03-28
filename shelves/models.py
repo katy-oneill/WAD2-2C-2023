@@ -64,6 +64,7 @@ class Media(models.Model):
 class Book(models.Model):
     # FK
     media = models.OneToOneField(Media, on_delete=models.CASCADE)
+    
 
     # Max-length values
     ISBN_MAX_LENGTH = 13

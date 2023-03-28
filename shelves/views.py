@@ -197,6 +197,80 @@ def add_book(request):
     return render(request, "shelves/add_book.html", {"form": form})
 
 
+@login_required
+def add_movie(request):
+    
+    if request.method == "POST":
+        form = BookForm(request.POST)
+        print("Testingign")
+        if form.is_valid():
+            book = Book()
+            media = Media()
+            book.media = media
+            media.isbn = form.cleaned_data["isbn"]
+            book.title = form.cleaned_data["title"]
+            media.writer = form.cleaned_data["author"]
+            media.type = "Book"
+            media.language = form.cleaned_data["language"]
+            media.user = request.user
+            media.releaseDate = datetime.utcnow()
+            media.save()
+            book.save()
+            return redirect("books")
+    else:
+        form = BookForm()
+    return render(request, "shelves/add_book.html", {"form": form})
+
+
+@login_required
+def add_song(request):
+    
+    if request.method == "POST":
+        form = BookForm(request.POST)
+        print("Testingign")
+        if form.is_valid():
+            book = Book()
+            media = Media()
+            book.media = media
+            media.isbn = form.cleaned_data["isbn"]
+            book.title = form.cleaned_data["title"]
+            media.writer = form.cleaned_data["author"]
+            media.type = "Book"
+            media.language = form.cleaned_data["language"]
+            media.user = request.user
+            media.releaseDate = datetime.utcnow()
+            media.save()
+            book.save()
+            return redirect("books")
+    else:
+        form = BookForm()
+    return render(request, "shelves/add_book.html", {"form": form})
+
+
+@login_required
+def add_show(request):
+    
+    if request.method == "POST":
+        form = BookForm(request.POST)
+        print("Testingign")
+        if form.is_valid():
+            book = Book()
+            media = Media()
+            book.media = media
+            media.isbn = form.cleaned_data["isbn"]
+            book.title = form.cleaned_data["title"]
+            media.writer = form.cleaned_data["author"]
+            media.type = "Book"
+            media.language = form.cleaned_data["language"]
+            media.user = request.user
+            media.releaseDate = datetime.utcnow()
+            media.save()
+            book.save()
+            return redirect("books")
+    else:
+        form = BookForm()
+    return render(request, "shelves/add_book.html", {"form": form})
+
 def registration_success(request):
     user_profile = request.user.userprofile
     return render(request, 'shelves/dashboard.html', {'user_profile': user_profile})

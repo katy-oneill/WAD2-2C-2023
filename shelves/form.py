@@ -25,37 +25,68 @@ class BookForm(forms.Form):
 
         language = forms.CharField(help_text="What language is the book primarily written in?")
 
-        isbn = forms.CharField(max_length=Book.ISBN_MAX_LENGTH, 
-                               help_text="The ISBN number must be 13 digits long")
+        isbn = forms.CharField(max_length=Book.ISBN_MAX_LENGTH, help_text="The ISBN number must be 13 digits long")
+
+        numberOfPages = forms.CharField(help_text="How many pages does the book have?")
+        
         
         class Meta:
             model = Book
-            fields = ('isbn', 'title', 'author', 'language',)
+            fields = ('isbn', 'title', 'author', 'language','numberOfPages',)
 
 
 class MovieForm(forms.ModelForm):
+        title = forms.CharField(max_length = Media.TITLE_MAX_LENGTH, help_text= "Title of the movie")
+
         duration = forms.DurationField(help_text="Please enter the duration of the movie")
+
+        language = forms.CharField(help_text="What language is the movie primarily in?")
+
+        mainCast = forms.CharField(help_text="Who are the main cast of the movie?")
+
+        director = forms.CharField(help_text="Who is the director of the movie?")
         
         class Meta:
             model = Movie
-            fields = ('duration', )
+            fields = ('title','duration','language', 'mainCast', 'director', )
 
 
 class ShowForm(forms.ModelForm):
+
+        title = forms.CharField(max_length = Media.TITLE_MAX_LENGTH, help_text= "Title of the show")
+
         episodes = forms.IntegerField(help_text="Please enter the number of episodes")
+
         seasons = forms.IntegerField(help_text="Please enter the number of seasons")
+
+        language = forms.CharField(help_text="What language is the show primarily in?")
+
+        mainCast = forms.CharField(help_text="Who are the main cast of the show?")
+
+        director = forms.CharField(help_text="Who is the director of the show?")
+
+        channel = forms.CharField(help_text="What channel does the show air on?")
         
         class Meta:
             model = Show
-            fields = ('episodes', 'seasons' )
+            fields = ('title','episodes', 'seasons', 'language', 'mainCast', 'director', 'channel', )
 
 
 class SongForm(forms.ModelForm):
+
+        title = forms.CharField(max_length = Media.TITLE_MAX_LENGTH, help_text= "Title of the song")
+
         duration = forms.DurationField(help_text="Please enter the duration of the song")
-        
+
+        language = forms.CharField(help_text="What language is the song primarily in?")
+
+        artist = forms.CharField(help_text="The song is by which artist")
+
+        Platforms = forms.CharField(help_text="What platforms are you aware of where this song is available?")
+
         class Meta:
             model = Song
-            fields = ('duration', )
+            fields = ('title','duration', 'language', 'artist', 'Platforms')
 
 
 class PostForm(forms.ModelForm):
