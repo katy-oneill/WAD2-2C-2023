@@ -113,7 +113,7 @@ class FriendshipForm(forms.ModelForm):
     add_email = forms.EmailField(label='Email', required=True)
     class Meta:
         model = Friendship
-        fields = ('user', 'follower')
+        fields = ('sender', 'receiver')
 
     def save(self, commit=True):
         friendship = super(FriendshipForm, self).save(commit=False)

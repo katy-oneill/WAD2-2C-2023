@@ -8,13 +8,13 @@ from django.core.validators import MinValueValidator, MaxValueValidator, MinLeng
 class Media(models.Model):
     # FK
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    
+
     # Choice types
     TYPE_CHOICES = (
-       ('Book','Book'),
-       ('Movie','Movie'),
-       ('Show','Show'),
-       ('Song','Song'),
+        ('Book', 'Book'),
+        ('Movie', 'Movie'),
+        ('Show', 'Show'),
+        ('Song', 'Song'),
     )
 
     # Max-length values
@@ -31,7 +31,7 @@ class Media(models.Model):
     language = models.CharField(max_length=LANG_MAX_LENGTH)
     releaseDate = models.DateField(blank=True, validators=[MaxValueValidator(limit_value=datetime.date.today)])
     avgScore = models.FloatField(default=0)
-    
+
     # Keep track of avg. rating for media
     def updateAvgScore(self, media):
         posts = media.post_set.all()
@@ -42,22 +42,22 @@ class Media(models.Model):
 
             for post in posts:
                 scoreSum += post.rating
-            
-            self.avgScore = scoreSum/numberOfPosts
+
+            self.avgScore = scoreSum / numberOfPosts
             self.save()
 
     # To string
     def __str__(self):
         return self.title
-    
+
     # Slug
     slug = models.SlugField(unique=True)
-    
+
     def save(self, *args, **kwargs):
         self.type = self.type.lower()
         self.slug = slugify(self.title)
         super(Media, self).save(*args, **kwargs)
-    
+
 
 class Book(models.Model):
     # FK
@@ -68,7 +68,7 @@ class Book(models.Model):
 
     # Fields
     isbn = models.CharField(max_length=ISBN_MAX_LENGTH, validators=[MinLengthValidator(13), int_list_validator(sep='')])
-    
+
     def save(self, *args, **kwargs):
         super(Book, self).save(*args, **kwargs)
 
@@ -79,7 +79,7 @@ class Movie(models.Model):
 
     # Fields
     duration = models.DurationField(default=datetime.timedelta())
-    
+
     def save(self, *args, **kwargs):
         super(Movie, self).save(*args, **kwargs)
 
@@ -91,7 +91,7 @@ class Show(models.Model):
     # Fields
     episodes = models.IntegerField(default=0)
     seasons = models.IntegerField(default=0)
-    
+
     def save(self, *args, **kwargs):
         super(Show, self).save(*args, **kwargs)
 
@@ -102,7 +102,7 @@ class Song(models.Model):
 
     # Fields
     duration = models.DurationField(default=datetime.timedelta())
-    
+
     def save(self, *args, **kwargs):
         super(Song, self).save(*args, **kwargs)
 
@@ -118,25 +118,25 @@ class Post(models.Model):
 
     # Fields
     title = models.CharField(max_length=TITLE_MAX_LENGTH, unique=False)
-    rating = models.IntegerField(default=0,validators=[MinValueValidator(0), MaxValueValidator(10)])
+    rating = models.IntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(10)])
     comment = models.TextField(max_length=COMM_MAX_LENGTH, blank=True)
     publishDate = models.DateField(default=datetime.date.today)
     likes = models.IntegerField(default=0)
 
     # Links user and media so that a user cannot have more than 1 post per media
     class Meta:
-        unique_together = ('media','user')
-    
+        unique_together = ('media', 'user')
+
     # To string
     def __str__(self):
         return self.title
-    
+
     # Slug
-    
+
     def save(self, *args, **kwargs):
         super(Post, self).save(*args, **kwargs)
         self.media.updateAvgScore(media=self.media)
-    
+
 
 class UserProfile(models.Model):
     # FK
@@ -152,10 +152,11 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
 
+
 class Friendship(models.Model):
     # FK
     sender = models.ForeignKey(User, related_name='sender', on_delete=models.CASCADE)
     receiver = models.ForeignKey(User, related_name='receiver', on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = ('sender','receiver')
+        unique_together = ('sender', 'receiver')
