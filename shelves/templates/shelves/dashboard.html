@@ -12,18 +12,21 @@
 <main>
 <div class="navbar">
     <div class="search">
-    <form action="{% url 'launch' %}">
+    <form action="{% url 'shelves:launch' %}">
       <input type="text" placeholder="Search.." name="search">
       <button type="submit">  ⛭  </button>
     </form>
-      <a href="{% url 'social' %}">Social</a>
-      <a href="{% url 'view_profile' %}" class="btn btn-primary">Profile</a>
-      <a href="{% url 'add_media' %}">Add Media</a>
+      <a href="{% url 'shelves:social' %}">Social</a>
+      <a href="{% url 'shelves:list_profiles' %}">Members</a>
+      <a href="{% url 'shelves:profile' user.username %}" class="btn btn-primary">Profile</a>
+      <a href="{% url 'shelves:add_media' %}">Add Media</a>
+      <a href="{% url 'shelves:list_media' %}">Collection</a>
+      <a href="{% url 'shelves:index' %}">Index</a>
   </div>
 </div>
 <div class = "main">
 <div class="container">
-    <a href="{% url 'books' %}">
+    <a href="{% url 'shelves:books' %}">
     <img src="../../static/images/book.png" alt="picture of book logo" class="image">
     <div class="overlay">
       <div class="text">My books</div>
@@ -32,7 +35,7 @@
   </div>
   
   <div class="container">
-    <a href="{% url 'shows' %}">
+    <a href="{% url 'shelves:shows' %}">
     <img src="../../static/images/tv.png" alt="picture of shows logo" class="image">
     <div class="overlay">
       <div class="text">My shows</div>
@@ -41,7 +44,7 @@
   </div>
 
   <div class="container-final">
-    <a href="{% url 'movies' %}">
+    <a href="{% url 'shelves:movies' %}">
     <img src="../../static/images/movie.png" alt="picture of movie logo" class="image">
     <div class="overlay">
       <div class="text">My movies</div>
@@ -50,7 +53,7 @@
   </div>
   
   <div class="container">
-    <a href="{% url 'albums' %}">
+    <a href="{% url 'shelves:albums' %}">
     <img src="../../static/images/song.png" alt="picture of song logo" class="image">
     <div class="overlay">
       <div class="text">My music</div>
@@ -89,6 +92,6 @@
     <button type="submit" class="btn btn-primary">Update</button>
   </form>
 
-  <a href="{% url 'logout' %}" class="btn btn-primary">Log Out</a>
+  <a href="{% url 'shelves:logout' %}" class="btn btn-primary">Log Out</a>
 {% endblock %}
 -->

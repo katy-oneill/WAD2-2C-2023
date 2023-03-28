@@ -14,12 +14,8 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
-
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'shelves/templates')
-
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
-
 MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 
 
@@ -28,7 +24,12 @@ MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '5i_5h&6of%bk3p70dj99fpt5@x=obkv!y78gnh6v)y%4m^v3p6'
+key = None
+
+with open('secret.key') as f:
+    key = f.read().strip()
+
+SECRET_KEY = key
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -58,7 +59,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'shelves.urls'
+ROOT_URLCONF = 'shelves_project.urls'
 
 
 TEMPLATES = [
@@ -143,4 +144,4 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
 
-LOGIN_REDIRECT_URL = 'dashboard'
+LOGIN_REDIRECT_URL = 'shelves:dashboard'

@@ -15,9 +15,9 @@
         
         <header>
             <div class="navbar">
-            <a href="{% url 'launch' %}" class="button">Home</a>
+            <a href="{% url 'shelves:launch' %}" class="button">Home</a>
             {% if user.is_authenticated %}
-                <a href="{% url 'logout' %}?next={{ request.path }}">Logout</a>
+                <a href="{% url 'shelves:logout' %}?next={{ request.path }}">Logout</a>
             {% endif %}
             {% block header %}
             {% endblock %}

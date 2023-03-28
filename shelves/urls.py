@@ -12,8 +12,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts', include('django.contrib.auth.urls')),
     path('friends/', views.friends, name='friends'),
-    path('profile/', views.view_profile, name='view_profile'),
-    path('profile/edit/', views.edit_profile, name='edit_profile'),
     path('social/', views.social, name='social'),
     path('accounts/login/', auth_views.LoginView.as_view(template_name='shelves/login.html'), name='login'),
     path('register/', views.register, name='register'),
@@ -24,13 +22,24 @@ urlpatterns = [
     path('accounts/dashboard/albums/', views.albums, name="albums"),
     path('accounts/dashboard/shows/', views.shows, name="shows"),
     path('accounts/dashboard/movies/', views.movies, name="movies"),
+    path('profile/<username>/edit/', views.edit_profile, name='edit_profile'),
 
+#--------------------------------------------------------------------------------------------------------
+    path('index/', views.index, name='index'),
+    path('about/', views.about, name='about'),
+    path('contact/', views.contact, name='contact'),
+    path('media_collection/', views.list_media, name='list_media'),
+    path('<str:media_type>/<slug:media_title_slug>/show_media', views.show_media, name='show_media'),
     path('add_media/', views.add_media, name='add_media'),
-    path('social/', views.social, name='social'),
-    path('<slug:media_title_slug>/add_details/', views.add_type_details, name='add_type_details'),
-    path('<slug:media_title_slug>/add_post/', views.add_post, name='add_post'),
+    path('<str:media_type>/<slug:media_title_slug>/add_details/', views.add_details, name='add_details'),
+    path('<str:media_type>/<slug:media_title_slug>/add_post/', views.add_post, name='add_post'),
+    path('profile/<username>/', views.ProfileView.as_view(), name='profile'),
+    path('profiles/', views.ListProfilesView.as_view(), name='list_profiles'),
+    path('delete/<username>', views.delete_account, name='delete_account'),
     path('<username>/send_friend_request/', views.send_friend_request, name='send_friend_request'),
     path('<username>/accept_friend_request/', views.accept_friend_request, name='accept_friend_request'),
+#--------------------------------------------------------------------------------------------------------
+
 ]
 
 if settings.DEBUG:

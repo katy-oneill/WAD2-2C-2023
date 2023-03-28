@@ -1,20 +1,138 @@
-<!DOCTYPE html>
-{% extends "shelves/base.html" %}
+{% extends 'shelves/base_bootstrap.html' %}
+{% load staticfiles %}
 
 {% block title_block %}
-  Edit User Profile
+{{ selected_user.username }}'s Profile
 {% endblock %}
 
-{% block content %}
-  <h1>THIS IS THE PROFILE PAGE</h1>
-  <h1>Edit User Profile</h1>
-  <p>Welcome, {{ user.username }}!</p>
+{% block body_block %}
+<div class="jumbotron p-4">
+    <div class="container">
+        <h1 class="jumbotron-heading">{{ selected_user.username }}'s Profile</h1>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        {% if user_profile.picture %}
+        <img src="{{ MEDIA_URL }}{{ user_profile.picture }}" width="150" height="150"
+            alt="{{ selected_user.username }}'s profile image" />
+        {% else %}
+        <img src="{% static 'images/anonUser.png' %}" width="150" height="150"
+            alt="{{ selected_user.username }}'s profile image" />
+        {% endif %}
+        <br>
+        <div>
+            <p>
+                <strong>Join date: {{ user_profile.joinDate }}</strong>
+            </p>
+            {% if selected_user == user %}
+            <form method="post" action="." enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Update" />
+            </form>
+            <br>
+            <form action="{% url 'shelves:delete_account' selected_user.username %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Delete Account</button>
+            </form>
+            <br>
+            {% elif inbound_friend_request %}
+            <form action="{% url 'shelves:accept_friend_request' selected_user.username %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-secondary btn-sm">Accept Friend Request</button>
+            </form>
+            {% elif outbound_friend_request %}
+            <strong>Your friend request to {{ selected_user.username }} has been sent!</strong>
+            {% elif self not in selected_user_friends %}
+            <form action="{% url 'shelves:send_friend_request' selected_user.username %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-secondary btn-sm">Send Friend Request</button>
+            </form>
+            {% else %}
+            <strong>You and {{ selected_user.username }} are friends!</strong>
+            {% endif %}
+        </div>
 
-  <form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ profile_form.as_p }}
-    <button type="submit" class="btn btn-primary">Update</button>
-  </form>
+        {% if selected_user == user %}
+        <div class="col-md-6">
+            <div class="card mb-6">
+                <div class="card-body">
+                    <strong>Friend Requests:</strong>
+                    {% if incoming_friend_requests %}
+                    <ul class="list-group">
+                        {% for request in incoming_friend_requests %}
+                        <li>
+                            <a href="{% url 'shelves:profile' request.username %}">
+                                {{ request.username }}
+                            </a>
+                            <form action="{% url 'shelves:accept_friend_request' request.username %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-secondary btn-sm">Accept Friend
+                                    Request</button>
+                            </form>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    You don't have any incoming friend requests.
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
 
-  <a href="{% url 'view_profile' %}" class="btn btn-primary">View Profile</a>
+        {% if selected_user == user or self in selected_user_friends %}
+        <div class="col-md-6">
+            <div class="card mb-6">
+                <div class="card-body">
+                    <h2>Posts added: {{ post.count }}</h2>
+                    <p class="card-text">
+                    <ul class="list-group">
+                        {% for post in posts %}
+                        <li class="list-group-item">
+                            <a href="{% url 'shelves:show_media' post.media.type post.media.slug%}">{{ post.title }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <div class="list-group">
+                {% for type, objects in media_collection.items %}
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card mb-6">
+                                <div class="card-body" id="{{ type }}">
+                                    <h2>{{ type|title }} added:</h2>
+                                    <p class="card-text">
+                                        {% if objects %}
+                                    <ul class="list-group">
+                                        {% for object in objects %}
+                                        <li class="list-group-item">
+                                            <a href="{% url 'shelves:show_media' object.type object.slug %}">
+                                                {{ object.title }}</a>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                    {% else %}
+                                    <strong>{{ selected_user.username }} has not added {{ type }} to the
+                                        website.</strong>
+                                    {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}

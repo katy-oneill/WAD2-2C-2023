@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% extends "shelves/base.html" %}
+
+{% block title_block %}
+  Edit User Profile
+{% endblock %}
+
+{% block content %}
+  <h1>THIS IS THE PROFILE PAGE</h1>
+  <h1>Edit User Profile</h1>
+  <p>Welcome, {{ user.username }}!</p>
+
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ profile_form.as_p }}
+    <button type="submit" class="btn btn-primary">Update</button>
+  </form>
+
+  <a href="{% url 'view_profile' %}" class="btn btn-primary">View Profile</a>
+{% endblock %}
