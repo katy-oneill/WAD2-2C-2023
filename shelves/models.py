@@ -155,7 +155,7 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
 
-class Friendship(models.Model):
+class FriendRequest(models.Model):
     # FK
     sender = models.ForeignKey(User, related_name='sender', on_delete=models.CASCADE)
     receiver = models.ForeignKey(User, related_name='receiver', on_delete=models.CASCADE)

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from shelves.models import Media, Book, Movie, Show, Song, Post, UserProfile, FriendRequest
-from shelves.forms import MediaForm, BookForm, MovieForm, ShowForm, SongForm, PostForm, UserProfileForm, ProfileUpdateForm, RegistrationForm
+from shelves.forms import MediaForm, BookForm, MovieForm, ShowForm, SongForm, PostForm, ProfileUpdateForm, RegistrationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout
 from django.urls import reverse

@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from shelves.models import Media, Book, Movie, Show, Song, Post, UserProfile, Friendship
+from shelves.models import Media, Book, Movie, Show, Song, Post, UserProfile, FriendRequest
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator, MinLengthValidator, int_list_validator
 
@@ -112,7 +112,7 @@ class RegistrationForm(UserCreationForm):
 class FriendshipForm(forms.ModelForm):
     add_email = forms.EmailField(label='Email', required=True)
     class Meta:
-        model = Friendship
+        model = FriendRequest
         fields = ('sender', 'receiver')
 
     def save(self, commit=True):
