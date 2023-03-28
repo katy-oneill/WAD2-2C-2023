@@ -12,12 +12,12 @@
 <main>
 <div class="navbar">
 <div class="search">
-<form action="{% url 'launch' %}">
+<form action="{% url 'shelves:launch' %}">
   <input type="text" placeholder="Search.." name="search">
   <button type="submit">  ⛭  </button>
 </form>
-  <a href="{% url 'social' %}">Social</a>
-  <a href="{% url 'view_profile' %}">Profile</a>
+  <a href="{% url 'shelves:social' %}">Social</a>
+  <a href="{% url 'shelves:profile' user.username %}">Profile</a>
 </div>
 </div>
 
@@ -27,7 +27,7 @@
     
 </div>
 <div class="row">
-    <form role="form" id="book_form" method="post" action="{% url 'add_media' %}">
+    <form role="form" id="media_form" method="post" action="{% url 'shelves:add_media' %}">
         {% csrf_token %}
         {% for hidden in form.hidden_fields %}
         {{ hidden }}

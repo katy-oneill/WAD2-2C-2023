@@ -58,7 +58,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'shelves.urls'
+ROOT_URLCONF = 'shelves_project.urls'
 
 
 TEMPLATES = [
@@ -143,4 +143,4 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
 
-LOGIN_REDIRECT_URL = 'dashboard'
+LOGIN_REDIRECT_URL = 'shelves:dashboard'

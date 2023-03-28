@@ -1,12 +1,11 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
-from shelves.models import Media, Book, Movie, Show, Song, Post, UserProfile, Friendship
+from shelves.models import Media, Book, Movie, Show, Song, Post, UserProfile
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator, MinLengthValidator, int_list_validator
+from django.core.exceptions import ValidationError
+from django.contrib.auth.forms import UserCreationForm
 
-
+#------------------------------------------------------------------------------------------
 class MediaForm(forms.ModelForm):
     title = forms.CharField(max_length=Media.TITLE_MAX_LENGTH,
                                 help_text="Please enter the media title")
@@ -37,7 +36,7 @@ class BookForm(forms.ModelForm):
 
 
 class MovieForm(forms.ModelForm):
-        duration = forms.DurationField(help_text="Please enter the duration of the movie")
+        duration = forms.DurationField(help_text="Please enter the duration of the movie (H:MM:SS)")
         
         class Meta:
             model = Movie
@@ -54,7 +53,7 @@ class ShowForm(forms.ModelForm):
 
 
 class SongForm(forms.ModelForm):
-        duration = forms.DurationField(help_text="Please enter the duration of the song")
+        duration = forms.DurationField(help_text="Please enter the duration of the song (H:MM:SS)")
         
         class Meta:
             model = Song
@@ -76,7 +75,23 @@ class PostForm(forms.ModelForm):
         fields = ['title', 'rating', 'comment',]
 
 
+class UserForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
+    
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password',)
+
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ('picture',)
+#------------------------------------------------------------------------------------------
+
+
 class RegistrationForm(UserCreationForm):
+    username = forms.CharField(label='Username', required=True)
     email = forms.EmailField(label='Email', required=True)
     first_name = forms.CharField(label='First Name', max_length=100)
     last_name = forms.CharField(label='Surname', max_length=100)
@@ -87,17 +102,23 @@ class RegistrationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('email', 'first_name', 'last_name', 'password1', 'password2', 'age', 'gender', 'picture')
+        fields = ('username', 'email', 'first_name', 'last_name', 'password1', 'password2', 'age', 'gender', 'picture')
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
-        if User.objects.filter(username=email).exists():
+        if User.objects.filter(email=email).exists():
             raise ValidationError("Email already exists.")
         return email
+    
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if User.objects.filter(username=username).exists():
+            raise ValidationError("Usename already taken.")
+        return username
 
     def save(self, commit=True):
         user = super(RegistrationForm, self).save(commit=False)
-        user.username = self.cleaned_data['email']
+        user.username = self.cleaned_data['username']
         user.first_name = self.cleaned_data['first_name']
         user.last_name = self.cleaned_data['last_name']
         user.email = self.cleaned_data['email']
@@ -109,14 +130,7 @@ class RegistrationForm(UserCreationForm):
 
         return user
 
-class FriendshipForm(forms.ModelForm):
-    username = forms.CharField(label='Email', required=True)
-    class Meta:
-        model = Friendship
-        fields = []
-
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ['age', 'picture']
-

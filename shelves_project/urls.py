@@ -14,26 +14,28 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
-from django.contrib.auth import views as auth_views
-from shelves import views
+from django.urls import path
+from django.urls import include
 from django.conf import settings
 from django.conf.urls.static import static
+from shelves import views
+from registration.backends.simple.views import RegistrationView
+from django.urls import reverse
+
+
+class MyRegistrationView(RegistrationView):
+    def get_success_url(self, user):
+        return reverse('shelves:register_profile')
+
 
 urlpatterns = [
-    path('', views.launch, name='launch'),
-    path('admin/', admin.site.urls),
-    path('accounts', include('django.contrib.auth.urls')),
-    path('friends/', views.friends, name='friends'),
-    path('social/', views.social, name='social'),
-    path('accounts/login/', auth_views.LoginView.as_view(template_name='shelves/login.html'), name='login'),
-    path('register/', views.register, name='register'),
-    path('registration_success/', views.registration_success, name='registration_success'),
-    path('accounts/dashboard/', views.dashboard, name='dashboard'),
-    path('logout/', views.logout_view, name='logout'),
-    path('profile/', views.view_profile, name='view_profile'),
-    path('profile/edit/', views.edit_profile, name='edit_profile'),
-]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+        path('admin/', admin.site.urls),
+        path('', include('shelves.urls'), name='index'),
+        
+        # New line below -- don't forget the slash after register!
+        path('accounts/register/',
+            MyRegistrationView.as_view(),
+            name='registration_register'),
+        
+        path('accounts/', include('registration.backends.simple.urls')),
+        ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
