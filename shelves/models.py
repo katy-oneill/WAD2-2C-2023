@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator, MinLengthValidator, int_list_validator
 
 
+
 class Media(models.Model):
     # FK
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -31,6 +32,7 @@ class Media(models.Model):
     language = models.CharField(max_length=LANG_MAX_LENGTH)
     releaseDate = models.DateField(blank=True, validators=[MaxValueValidator(limit_value=datetime.date.today)])
     avgScore = models.FloatField(default=0)
+ 
     
     # Keep track of avg. rating for media
     def updateAvgScore(self, media):

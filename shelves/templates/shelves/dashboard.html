@@ -18,7 +18,16 @@
     </form>
       <a href="{% url 'social' %}">Social</a>
       <a href="{% url 'view_profile' %}" class="btn btn-primary">Profile</a>
-      <a href="{% url 'add_media'%}">Add Media</a>
+      <!-- <a href="{% url 'add_media'%}">Add Media</a> -->
+      <div class="dropdown">
+        <button class="dropbtn">Add media</button>
+        <div class="dropdown-content">
+          <a href="{% url 'add_book' %}">Add Book</a>
+          <a href="% url 'add_movie' %}">Add movie</a>
+          <a href="% url 'add_show' %}">Add show</a>
+          <a href="% url 'add_song' %}">Add song</a>
+        </div>
+      </div> 
   </div>
 </div>
 <div class = "main">

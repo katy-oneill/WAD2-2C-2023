@@ -26,8 +26,13 @@ urlpatterns = [
     path('accounts/dashboard/movies/', views.movies, name="movies"),
 
     path('add_media/', views.add_media, name='add_media'),
-    path('<slug:media_title_slug>/add_details/', views.add_type_details, name='add_type_details'),
+     path('add_media/<slug:media_title_slug>', views.add_type_details, name='add_type_details'),
     path('<slug:media_title_slug>/add_post/', views.add_post, name='add_post'),
+    path('add_book', views.add_book, name='add_book'),
+    # path('add_movie', views.add_movie, name='add_movie'),
+    # path('add_show', views.add_show, name='add_show'),
+    # path('add_song', views.add_song, name='add_song'),
+
 ]
 
 if settings.DEBUG:

@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" alt="my images">
     <title>
-        Add Show Details
+        Add Movie Details
     </title>
 </head>
 <html>
@@ -17,18 +17,18 @@
   <button type="submit">  ⛭  </button>
 </form>
   <a href="{% url 'social' %}">Social</a>
-  <a href="{% url 'personal' %}">Profile</a>
+  <a href="{% url 'view_profile' %}">Profile</a>
 </div>
 </div>
 
 <div class="jumbotron p-4">
     
-    <h1 class="jumbotron-heading">Add Show Details</h1>
+    <h1 class="jumbotron-heading">Add Movie Details</h1>
     
 </div>
 
 <div class="row">
-    <form role="form" id="book_form" method="post" action="{% url 'add_show_details' media.slug %}">
+    <form role="form" id="book_form" method="post">
         {% csrf_token %}
         {% for hidden in form.hidden_fields %}
         {{ hidden }}

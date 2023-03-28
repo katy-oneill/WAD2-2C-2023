@@ -8,32 +8,29 @@ from django.core.validators import MaxValueValidator, MinValueValidator, MinLeng
 
 
 class MediaForm(forms.ModelForm):
-    title = forms.CharField(max_length=Media.TITLE_MAX_LENGTH,
-                                help_text="Please enter the media title")
-    
-    type = forms.CharField(help_text="Please select the type of media",
+
+    media_type = forms.CharField(help_text="Please select the type of media you wish to store",
                             widget=forms.Select(choices=Media.TYPE_CHOICES))
-
-    writer = forms.CharField(max_length=Media.WRITER_MAX_LENGTH,
-                                help_text="Please enter the media author")
-
-    language = forms.CharField(max_length=Media.LANG_MAX_LENGTH,
-                                help_text="Please enter the media language")
-    
-    releaseDate = forms.DateField(help_text="Please the enter release date")
 
     class Meta:
         model = Media
-        fields = ('title', 'writer', 'language', 'releaseDate', 'type', )
+        fields = ('media_type', )
 
 
-class BookForm(forms.ModelForm):
+class BookForm(forms.Form):
+
+        title = forms.CharField(max_length = Media.TITLE_MAX_LENGTH, help_text= "Title of the book")
+
+        author = forms.CharField(max_length = Media.WRITER_MAX_LENGTH, help_text= "Name of the book's author")
+
+        language = forms.CharField(help_text="What language is the book primarily written in?")
+
         isbn = forms.CharField(max_length=Book.ISBN_MAX_LENGTH, 
                                help_text="The ISBN number must be 13 digits long")
         
         class Meta:
             model = Book
-            fields = ('isbn', )
+            fields = ('isbn', 'title', 'author', 'language',)
 
 
 class MovieForm(forms.ModelForm):
